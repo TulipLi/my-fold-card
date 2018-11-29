@@ -30,9 +30,10 @@ class App extends Component {
   }
   touchmove = (e) => {
     const touchMoveY = e.changedTouches[0].pageY - this.state.touchStartY
+    console.info(touchMoveY)
     if (touchMoveY <= DISTANCE && touchMoveY >= -DISTANCE) {
       this.setState({
-        touchMoveY: (e.changedTouches[0].pageY - this.state.touchStartY).toFixed(),
+        touchMoveY: touchMoveY.toFixed(),
       })
     } else if(touchMoveY > DISTANCE) {
       this.setState({
@@ -46,21 +47,26 @@ class App extends Component {
   }
   touchend = (e) => {
     const touchMoveY = e.changedTouches[0].pageY - this.state.touchStartY
-    if (touchMoveY > 0 && touchMoveY <DISTANCE) { // 回弹
+    const {status} = this.state
+    // console.info(touchMoveY)
+    if (touchMoveY > 0 && touchMoveY < DISTANCE) { // 恢复
       this.setState({
-        touchMoveY: 0,
+        touchMoveY: status ? 0 : 100,
       })
     } else if (touchMoveY >= DISTANCE) { // 展开
       this.setState({
         touchMoveY: 100,
+        status: true
       })
-    } else if (touchMoveY > -DISTANCE && touchMoveY <=0) { // 收起
+    } else if (touchMoveY > -DISTANCE && touchMoveY < 0) { // 恢复
       this.setState({
-        touchMoveY: 100,
+        touchMoveY: status ? 0 : 100,
+        
       })
-    } else if (touchMoveY <= -DISTANCE) { // 回弹
+    } else if (touchMoveY <= -DISTANCE) { // 收起
       this.setState({
         touchMoveY: 0,
+        status: false,
       })
     }
   }
