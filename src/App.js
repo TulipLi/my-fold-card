@@ -6,12 +6,12 @@ let cards = ['card1', 'card2', 'card3', 'card4', 'card5', 'card6']
 let cardHeight = 80
 let cardMargin = 20
 let top = (cardHeight + cardMargin)/2
-let DISTANCE = 50
+let DISTANCE = 100
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isFold: true,
+      status: true,
       touchStartY: 0,
       touchMoveY: 0,
       touchEndY: 0,
@@ -30,7 +30,10 @@ class App extends Component {
   }
   touchmove = (e) => {
     const touchMoveY = e.changedTouches[0].pageY - this.state.touchStartY
-    console.info(touchMoveY)
+    const {status} = this.state
+    if ((status && touchMoveY > 0) || (!status && touchMoveY < 0)) {
+      return
+    }
     if (touchMoveY <= DISTANCE && touchMoveY >= -DISTANCE) {
       this.setState({
         touchMoveY: touchMoveY.toFixed(),
@@ -48,22 +51,25 @@ class App extends Component {
   touchend = (e) => {
     const touchMoveY = e.changedTouches[0].pageY - this.state.touchStartY
     const {status} = this.state
-    // console.info(touchMoveY)
     if (touchMoveY > 0 && touchMoveY < DISTANCE) { // 恢复
+      console.info('huifu', touchMoveY)
       this.setState({
-        touchMoveY: status ? 0 : 100,
+        touchMoveY: status ? 100 : 0,
       })
     } else if (touchMoveY >= DISTANCE) { // 展开
+      console.info('zhankai', touchMoveY)
       this.setState({
         touchMoveY: 100,
         status: true
       })
     } else if (touchMoveY > -DISTANCE && touchMoveY < 0) { // 恢复
+      console.info('huifu', touchMoveY)
       this.setState({
-        touchMoveY: status ? 0 : 100,
+        touchMoveY: status ? 100 : 0,
         
       })
     } else if (touchMoveY <= -DISTANCE) { // 收起
+      console.info('shouqi', touchMoveY)
       this.setState({
         touchMoveY: 0,
         status: false,
