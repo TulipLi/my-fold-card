@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Card from './components/Card'
+import FoldCard from './components/FoldCard'
 
 let cards = ['card1', 'card2', 'card3', 'card4', 'card5', 'card6']
 let cardHeight = 80
@@ -86,6 +87,15 @@ class App extends Component {
     const {touchMoveY} = this.state
     return (
       <div className="container">
+        <FoldCard>
+          {
+            cards.map(card => {
+              return (
+                <div>{card}</div>
+              )
+            })
+          }
+        </FoldCard>
         {
           cards.map((card, index) => {
             const style={
@@ -98,8 +108,11 @@ class App extends Component {
               <Card
                 key={index}
                 card={card}
+                index={index}
                 style={style}
-              />
+              >
+              {card}
+              </Card>
             )
           })
         }
