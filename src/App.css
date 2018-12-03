@@ -16,5 +16,8 @@
   justify-content: center;
   /* position: relative; */
   border: 1px solid #888888;
+  
+}
+.fold-card .fold-item {
   transition: top .5s;
 }

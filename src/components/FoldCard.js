@@ -4,8 +4,8 @@ class FoldCard extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			status: props.status || true,
-			distance: props.distance || 100,
+			status: props.status || false,
+			distance: props.distance || 50,
 			top: props.top || 50,
 			touchStartY: 0,
 			touchMoveY: 0,
@@ -21,6 +21,7 @@ class FoldCard extends React.Component {
 	}
 
 	touchstart = (e) => {
+    console.info('start', e.targetTouches[0].pageY)
     this.setState({
       touchStartY: e.targetTouches[0].pageY
     })
@@ -28,6 +29,7 @@ class FoldCard extends React.Component {
   touchmove = (e) => {
     const touchMoveY = e.changedTouches[0].pageY - this.state.touchStartY
     const {status, distance} = this.state
+    console.info('move', {status, touchMoveY})
     if ((status && touchMoveY > 0) || (!status && touchMoveY < 0)) {
       return
     }
@@ -48,6 +50,7 @@ class FoldCard extends React.Component {
 	touchend = (e) => {
     const touchMoveY = e.changedTouches[0].pageY - this.state.touchStartY
     const {status, distance} = this.state
+    console.info('end', {status, touchMoveY})
     if (touchMoveY > 0 && touchMoveY < distance) { // 恢复
       console.info('huifu', touchMoveY)
       this.setState({
@@ -88,11 +91,9 @@ class FoldCard extends React.Component {
 						top: -index*(top - touchMoveY*0.5),
 						position: 'relative'
 					}
-					console.info(top)
-					console.info(touchMoveY)
 					// // console.info(child)
 					return (
-						<div style={style} key={index}>
+						<div className="fold-item" style={style} key={index}>
 							{child}
 						</div>
 					)
