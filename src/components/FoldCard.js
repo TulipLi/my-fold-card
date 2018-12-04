@@ -59,8 +59,9 @@ class FoldCard extends React.Component {
     } else if (touchMoveY >= distance) { // 展开
       console.info('zhankai', touchMoveY)
       this.setState({
-        touchMoveY: 100,
-        status: true
+        touchMoveY: 0,
+        status: true,
+        top: 0
       })
     } else if (touchMoveY > -distance && touchMoveY < 0) { // 恢复
       console.info('huifu', touchMoveY)
@@ -73,6 +74,7 @@ class FoldCard extends React.Component {
       this.setState({
         touchMoveY: 0,
         status: false,
+        top: 50,
       })
     }
   }
@@ -83,7 +85,7 @@ class FoldCard extends React.Component {
     console.info('componentWillUnmount')
 	}
 	render() {
-		const {touchMoveY, top, status} = this.state
+		const {touchMoveY, top} = this.state
 		return (
 			<div className="fold-card">
 				{this.props.children.map((child, index) => {
